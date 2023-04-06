@@ -57,4 +57,18 @@ public class Boleta
     {
         this.fechaDevolucion = fechaDevolucion;
     }
+
+    public int devolverPelicula (Pelicula peli)
+    {
+        int flag = 0;
+        LocalDate fechaHoy = LocalDate.now();
+
+        if(this.getFechaDevolucion() == fechaHoy)
+        {
+            flag = 1;
+            peli.setStock(peli.getStock() + 1);
+        }
+        ///Si le fecha de devolucion es igual a la fecha actual significa que hay que devolver la pelicula.
+        return flag;
+    }
 }
