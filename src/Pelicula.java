@@ -115,4 +115,18 @@ public class Pelicula
     {
         this.popularidad = popularidad;
     }
+    public void mostrarPelicula ()
+    {
+        System.out.println("**********************************************************");
+        System.out.println("Titulo de la pelicula: " + getTitulo());
+        System.out.println("Año de lanzamiento: " + getAñoLanzamiento());
+        System.out.println("Duracion en minutos de la pelicula: " + getDuracionEnMinutos());
+        System.out.println("Clasificacion de la audiencia: " + getClasificacionAudiencia());
+        System.out.println("Siglas del pais de origen de la pelicula: " + getSiglasPaisOrigen());
+        System.out.println("Descricpion de la pelicula: " + getDescripcion());
+        System.out.println("Genero de la pelicula: " + getGenero());
+        System.out.println("Stock de la pelicula: " + getStock());
+        System.out.println("Cantidad de veces que la pelicula fue alquilada: " + getPopularidad());
+        System.out.println("**********************************************************");
+    }
 }
