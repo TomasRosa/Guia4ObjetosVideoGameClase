@@ -71,4 +71,11 @@ public class Boleta
         ///Si le fecha de devolucion es igual a la fecha actual significa que hay que devolver la pelicula.
         return flag;
     }
+    public void mostrarBoleta ()
+    {
+        System.out.println("*******BOLETA*******");
+        this.cliente.mostrarUnCliente();
+        System.out.println("Fecha de retiro: " + this.fechaRetiro);
+        System.out.println("Fecha de devolucion: " + this.fechaDevolucion);
+    }
 }
