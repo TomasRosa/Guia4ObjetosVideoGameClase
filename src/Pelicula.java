@@ -10,6 +10,8 @@ public class Pelicula
     private int stock;
     private int popularidad = 0; ///Cuantas veces se llevo esa pelicula, inicia en 0 por defecto.
 
+
+
     public Pelicula ()
     {
 

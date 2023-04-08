@@ -59,6 +59,7 @@ public class Cliente
     }
     public void agregarPeliculaDeClienteAArrayList (Pelicula pelicula)
     {
+        pelicula.setPopularidad(pelicula.getPopularidad()+1);
         this.peliculas.add(pelicula);
     }
     public void mostrarUnCliente ()
@@ -67,12 +68,12 @@ public class Cliente
         System.out.println("Direccion del cliente: " + this.direccion);
         System.out.println("DNI del cliente: " + this.dni);
     }
-    public void verDatosDelClienteYPeliculasQueAlquilo ()
+    public void verDatosDelClienteYUltimas10PeliculasQueAlquilo ()
     {
-        mostrarUnCliente();
-        for(Pelicula peliculita: this.peliculas)
+        for(int i = 0; i < this.peliculas.size(); i++)
         {
-            System.out.println("Nombre de la pelicula alquilada: " + peliculita.getTitulo());
+            mostrarUnCliente();
+            System.out.println("Nombre de la pelicula alquilada: " + this.peliculas.get(i).getTitulo());
         }
     }
 

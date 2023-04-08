@@ -1,4 +1,6 @@
+import java.lang.reflect.Array;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.Random;
 
 public class Boleta
@@ -6,6 +8,7 @@ public class Boleta
     private Cliente cliente;
     private LocalDate fechaRetiro; ///Va a ser hoy
     private LocalDate fechaDevolucion; ///Fecha random puede ser solo de aqui a una semana.
+
 
     public Boleta()
     {
@@ -70,6 +73,24 @@ public class Boleta
         }
         ///Si le fecha de devolucion es igual a la fecha actual significa que hay que devolver la pelicula.
         return flag;
+    }
+    public ArrayList<Cliente> consultarDevolucionesHoy (VideoStore TiendaCompleta)
+    {
+        ArrayList<Cliente> clientesConPeliculasADevolver = new ArrayList<Cliente>();
+
+        for(Cliente clientecito: TiendaCompleta.getClientes())
+        {
+            ArrayList<Pelicula> peliculasADevolver = new ArrayList<Pelicula>();
+           for(Pelicula peliculaADevolver: clientecito.getPeliculas())
+           {
+                if(LocalDate.now().isEqual(this.fechaDevolucion))
+                {
+                    System.out.println("El cliente: " + clientecito.getNombre() + "debe devolver la pelicula: " + peliculaADevolver.getTitulo());
+                    clientesConPeliculasADevolver.add(clientecito);
+                }
+           }
+        }
+        return clientesConPeliculasADevolver;
     }
     public void mostrarBoleta ()
     {

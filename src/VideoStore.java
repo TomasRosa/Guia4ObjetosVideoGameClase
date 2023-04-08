@@ -1,10 +1,13 @@
+import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.Scanner;
 
 public class VideoStore
 {
     private ArrayList<Cliente> clientes;
     private ArrayList<Pelicula> peliculas;
+
 
     public VideoStore ()
     {
@@ -35,6 +38,7 @@ public class VideoStore
     {
         this.peliculas.add(pelicula);
     }
+
     public void agregarClienteAVideoStore (Cliente cliente)
     {
         this.clientes.add(cliente);
@@ -108,6 +112,8 @@ public class VideoStore
                         clientecito.setDni(dni);
                         clientecito.setDireccion(direccion);
 
+                        agregarClienteAVideoStore(clientecito);
+
                         nombrePeli.setStock(nombrePeli.getStock()-1);
                         nombrePeli.setPopularidad(nombrePeli.getPopularidad()+1);
                         Pelicula peli = new Pelicula(nombrePeli.getTitulo(),nombrePeli.getDuracionEnMinutos(),nombrePeli.getClasificacionAudiencia(),nombrePeli.getSiglasPaisOrigen(),nombrePeli.getDescripcion(),nombrePeli.getGenero(),nombrePeli.getStock(),nombrePeli.getAñoLanzamiento());
@@ -146,5 +152,81 @@ public class VideoStore
             }
         }
        return peli;
+    }
+    public ArrayList<String> consultarAlquileresVigentes ()
+    {
+        ArrayList<String> peliculas = new ArrayList<String>();
+
+        for(Cliente peliculasAlquiladas: this.clientes)
+        {
+            peliculas.add(peliculasAlquiladas.getNombre());
+        }
+        return peliculas;
+    }
+    public ArrayList<Pelicula> ordenarPorPopularidadMetodoBurbuja()
+    {
+        ArrayList<Pelicula> peliculasOrdenadas = new ArrayList<Pelicula>(this.peliculas); ///Copio el arreglo de this.peliculas en el nuevo arreglo creado
+        int n = peliculasOrdenadas.size(); /// n es igual a la cantidad de peliculas que hay.
+        for (int i = 0; i < n - 1; i++) {
+            for (int j = 0; j < n - i - 1; j++) {
+                if (peliculasOrdenadas.get(j).getPopularidad() < peliculasOrdenadas.get(j + 1).getPopularidad())
+                {
+                    // Intercambiar elementos
+                    Pelicula temp = peliculasOrdenadas.get(j);
+                    peliculasOrdenadas.set(j, peliculasOrdenadas.get(j + 1));
+                    peliculasOrdenadas.set(j + 1, temp);
+                }
+            }
+        }
+        return peliculasOrdenadas;
+    }
+    public ArrayList<Pelicula> ordenarPorPopularidadMetodoBurbujaGenero(ArrayList<Pelicula> aCopiar)
+    {
+        ArrayList<Pelicula> peliculasOrdenadas = new ArrayList<Pelicula>(aCopiar); ///Copio el arreglo de this.peliculas en el nuevo arreglo creado
+        int n = peliculasOrdenadas.size(); /// n es igual a la cantidad de peliculas que hay.
+        for (int i = 0; i < n - 1; i++) {
+            for (int j = 0; j < n - i - 1; j++) {
+                if (peliculasOrdenadas.get(j).getPopularidad() < peliculasOrdenadas.get(j + 1).getPopularidad())
+                {
+                    // Intercambiar elementos
+                    Pelicula temp = peliculasOrdenadas.get(j);
+                    peliculasOrdenadas.set(j, peliculasOrdenadas.get(j + 1));
+                    peliculasOrdenadas.set(j + 1, temp);
+                }
+            }
+        }
+        return peliculasOrdenadas;
+    }
+    public void mostrarArrayListPeliculas (ArrayList<Pelicula> peliculas)
+    {
+        for(int i = 0; i < peliculas.size(); i++)
+        {
+            peliculas.get(i).mostrarPelicula();
+        }
+    }
+    public void buscarPorGeneroYOrdenarlosSegunPopularidad (String genero)
+    {
+        ArrayList<Pelicula> mostrarPeliculas = new ArrayList<Pelicula>();
+        ArrayList<Pelicula> aCopiar = new ArrayList<Pelicula>();
+
+        for(Pelicula buscarPorGenero: this.peliculas)
+        {
+            if(genero.equals(buscarPorGenero.getGenero()))
+            {
+                aCopiar.add(buscarPorGenero);
+            }
+        }
+        aCopiar = ordenarPorPopularidadMetodoBurbujaGenero(aCopiar);
+        mostrarArrayListPeliculas(aCopiar);
+    }
+    public void verInformacionDetalladaPelicula (String nombrePelicula)
+    {
+        for(Pelicula buscarPeli: this.peliculas)
+        {
+            if(buscarPeli.getTitulo().equals(nombrePelicula))
+            {
+                buscarPeli.mostrarPelicula();
+            }
+        }
     }
 }

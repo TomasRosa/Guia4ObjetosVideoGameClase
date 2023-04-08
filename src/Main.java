@@ -47,9 +47,13 @@ public class Main
         cliente.agregarPeliculaDeClienteAArrayList(peli2);
         cliente.agregarPeliculaDeClienteAArrayList(peli4);
 
+        TiendaDeVideo.agregarClienteAVideoStore(cliente);
+
         Cliente cliente2 = new Cliente("Ramiro","Genova 3145",87654321);
         cliente2.agregarPeliculaDeClienteAArrayList(peli3);
         cliente2.agregarPeliculaDeClienteAArrayList(peli);
+
+        TiendaDeVideo.agregarClienteAVideoStore(cliente2);
 
         Cliente cliente3 = new Cliente("Pelado","Constitucion 1450",34567890);
         cliente3.agregarPeliculaDeClienteAArrayList(peli5);
@@ -57,10 +61,14 @@ public class Main
         cliente3.agregarPeliculaDeClienteAArrayList(peli4);
         cliente3.agregarPeliculaDeClienteAArrayList(peli8);
 
+        TiendaDeVideo.agregarClienteAVideoStore(cliente3);
+
         Cliente cliente4 = new Cliente("Lauti","Lebensohn 4213",10293847);
         cliente4.agregarPeliculaDeClienteAArrayList(peli6);
         cliente4.agregarPeliculaDeClienteAArrayList(peli9);
         cliente4.agregarPeliculaDeClienteAArrayList(peli10);
+
+        TiendaDeVideo.agregarClienteAVideoStore(cliente4);
 
         Cliente cliente5 = new Cliente("luquitas","Luis Agote 2892",45539094);
         cliente5.agregarPeliculaDeClienteAArrayList(peli12);
@@ -70,8 +78,7 @@ public class Main
         cliente5.agregarPeliculaDeClienteAArrayList(peli3);
         cliente5.agregarPeliculaDeClienteAArrayList(peli4);
 
-
-        cliente5.verDatosDelClienteYPeliculasQueAlquilo();
+        TiendaDeVideo.agregarClienteAVideoStore(cliente5);
 
     }
 }
