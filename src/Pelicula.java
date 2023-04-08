@@ -11,7 +11,6 @@ public class Pelicula
     private int popularidad = 0; ///Cuantas veces se llevo esa pelicula, inicia en 0 por defecto.
 
 
-
     public Pelicula ()
     {
 
@@ -120,15 +119,15 @@ public class Pelicula
     public void mostrarPelicula ()
     {
         System.out.println("**********************************************************");
-        System.out.println("Titulo de la pelicula: " + getTitulo());
-        System.out.println("Año de lanzamiento: " + getAñoLanzamiento());
-        System.out.println("Duracion en minutos de la pelicula: " + getDuracionEnMinutos());
-        System.out.println("Clasificacion de la audiencia: " + getClasificacionAudiencia());
-        System.out.println("Siglas del pais de origen de la pelicula: " + getSiglasPaisOrigen());
-        System.out.println("Descricpion de la pelicula: " + getDescripcion());
-        System.out.println("Genero de la pelicula: " + getGenero());
-        System.out.println("Stock de la pelicula: " + getStock());
-        System.out.println("Cantidad de veces que la pelicula fue alquilada: " + getPopularidad());
+        System.out.println("Titulo de la pelicula: " + this.titulo);
+        System.out.println("Año de lanzamiento: " + this.añoLanzamiento);
+        System.out.println("Duracion en minutos de la pelicula: " + this.duracionEnMinutos);
+        System.out.println("Clasificacion de la audiencia: " + this.clasificacionAudiencia);
+        System.out.println("Siglas del pais de origen de la pelicula: " + this.siglasPaisOrigen);
+        System.out.println("Descricpion de la pelicula: " + this.descripcion);
+        System.out.println("Genero de la pelicula: " + this.genero);
+        System.out.println("Stock de la pelicula: " + this.stock);
+        System.out.println("Cantidad de veces que la pelicula fue alquilada: " + this.popularidad);
         System.out.println("**********************************************************");
     }
 }

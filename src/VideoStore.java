@@ -1,6 +1,5 @@
 import java.lang.reflect.Array;
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.Scanner;
 
 public class VideoStore
@@ -50,11 +49,16 @@ public class VideoStore
             peliculas.mostrarPelicula();
         }
     }
-    public Cliente corroborarQueExistaElCliente (long dniCliente)
+    public void mostrarClientesVideoStore ()
+    {
+        for(Cliente clientecito: this.clientes)
+        {
+            clientecito.mostrarUnClienteDatosYPeliculasHistorialCompleto();
+        }
+    }
+    public Cliente corroborarQueExistaElClienteSiNoCrearlo (long dniCliente, Scanner scan)
     {
         Cliente clienteARetornar = new Cliente();
-
-        ///Si existe el cliente lo retorna, sino retorna un cliente sin nada, igualmente lo voy a crear.
 
         for(Cliente clientecito: this.clientes)
         {
@@ -63,74 +67,58 @@ public class VideoStore
                 clienteARetornar = clientecito;
             }
         }
-        ///Si el cliente existe tengo que instanciar una boleta con los datos del cliente, fecha de retiro (dia de hoy) fecha de devolucion (algun dia entre hoy y una semana)
-        ///Si no existe debo cargar los datos del nuevo cliente y generar boleta con lo mismo de arriba.
+        if(clienteARetornar.getNombre() == null)
+        {
+            System.out.println("El cliente no se encuentra en la base de datos del videoStore.");
+            System.out.println("Ingrese su nombre. ");
+            String nombre = scan.next();
+            System.out.println("Ingrese su direccion. ");
+            String direccion = scan.next();
+            clienteARetornar.setDireccion(direccion);
+            clienteARetornar.setDni(dniCliente);
+            clienteARetornar.setNombre(nombre);
+        }
+
         return clienteARetornar;
     }
-    public int solicitarPelicula (String nombrePelicula, Scanner scan)
+    public Boleta solicitarPelicula (Scanner scan)
     {
-        ///Para que esto funcione verificar el retorno de la flag cuando se la llame en el main.
-        int flag = 0;
-
-        for(Pelicula nombrePeli: this.peliculas)
+        Boleta boletita = new Boleta();
+        char control = 's';
+        Cliente clientecito = new Cliente();
+        do
         {
-            if(nombrePeli.equals(nombrePelicula))
+            System.out.println("Que pelicula desea alquilar? ");
+            scan.nextLine();
+            String nombrePelicula = scan.nextLine();
+
+            for(int i = 0; i < this.peliculas.size(); i++)
             {
-                flag = 1;
-                if(nombrePeli.getStock() == 0)
+                if (this.peliculas.get(i).getTitulo().equals(nombrePelicula))
                 {
-                    flag = 0;
-                }
-                else
-                {
-                    Cliente clientecito = new Cliente();
-
-                    System.out.println("Ingrese el dni suyo, verificaremos en la base de datos si usted es cliente.");
-                    long dni = scan.nextLong();
-
-                    clientecito = corroborarQueExistaElCliente(dni);
-                    if(clientecito.getDni() != 0L) ///Si el cliente fue encontrado
+                    if(this.peliculas.get(i).getStock() == 0)
                     {
-                        nombrePeli.setStock(nombrePeli.getStock()-1);
-                        nombrePeli.setPopularidad(nombrePeli.getPopularidad()+1);
-                        Pelicula peli = new Pelicula(nombrePeli.getTitulo(),nombrePeli.getDuracionEnMinutos(),nombrePeli.getClasificacionAudiencia(),nombrePeli.getSiglasPaisOrigen(),nombrePeli.getDescripcion(),nombrePeli.getGenero(),nombrePeli.getStock(),nombrePeli.getAñoLanzamiento());
-                        clientecito.agregarPeliculaDeClienteAArrayList(peli);
-
-                        Boleta boletita = new Boleta(clientecito);
+                        System.out.println("No tenemos stock de esa pelicula :(");
                     }
-                    else ///Si el cliente no existe
+                    else
                     {
-                        System.out.println("Usted no esta inscripto en la base de datos.");
-                        System.out.println("Ingrese su nombre.");
-                        String nombre = scan.next();
-                        System.out.println("Ingrese su direccion. ");
-                        String direccion = scan.next();
-                        System.out.println("Ingrese su dni. ");
-                        dni = scan.nextLong();
-
-                        clientecito.setNombre(nombre);
-                        clientecito.setDni(dni);
-                        clientecito.setDireccion(direccion);
-
+                        System.out.println("Ingrese el dni suyo, verificaremos en la base de datos si usted es cliente.");
+                        long dni = scan.nextLong();
+                        clientecito = corroborarQueExistaElClienteSiNoCrearlo(dni,scan);
                         agregarClienteAVideoStore(clientecito);
 
-                        nombrePeli.setStock(nombrePeli.getStock()-1);
-                        nombrePeli.setPopularidad(nombrePeli.getPopularidad()+1);
-                        Pelicula peli = new Pelicula(nombrePeli.getTitulo(),nombrePeli.getDuracionEnMinutos(),nombrePeli.getClasificacionAudiencia(),nombrePeli.getSiglasPaisOrigen(),nombrePeli.getDescripcion(),nombrePeli.getGenero(),nombrePeli.getStock(),nombrePeli.getAñoLanzamiento());
+                        Pelicula peli = new Pelicula(this.peliculas.get(i).getTitulo(), this.peliculas.get(i).getDuracionEnMinutos(), this.peliculas.get(i).getClasificacionAudiencia(), this.peliculas.get(i).getSiglasPaisOrigen(), this.peliculas.get(i).getDescripcion(), this.peliculas.get(i).getGenero(), this.peliculas.get(i).getStock(), this.peliculas.get(i).getAñoLanzamiento());
                         clientecito.agregarPeliculaDeClienteAArrayList(peli);
-
-                        Boleta boletita = new Boleta(clientecito);
                     }
                 }
             }
-            else if(nombrePeli.equals(nombrePelicula) == false)
-            {
-                flag = 0;
-            }
-        }
-        ///Si encuentra la pelicula que el usuario quiere REALIZA UNA BANDA DE COSAS RETORNA 1.
-        ///Si no hay stock de esa pelicula o no existe, retorna 0.
-        return flag;
+            System.out.println("Desea seguir alquilando peliculas? s/n ");
+            scan.nextLine();
+            control = scan.next().charAt(0);
+        }while (control == 's');
+
+        boletita = new Boleta(clientecito);
+        return boletita;
     }
     public Pelicula encuentraPeliculaRetorna (String nombrePelicula)
     {
@@ -153,16 +141,34 @@ public class VideoStore
         }
        return peli;
     }
+    /*
     public ArrayList<String> consultarAlquileresVigentes ()
     {
         ArrayList<String> peliculas = new ArrayList<String>();
 
-        for(Cliente peliculasAlquiladas: this.clientes)
+        for(int i = 0; i < this.clientes.size(); i++)
         {
-            peliculas.add(peliculasAlquiladas.getNombre());
+            peliculas.add(this.clientes.get(i).getPeliculas().get(i).getTitulo());
         }
         return peliculas;
     }
+     */
+    public ArrayList<String> consultarAlquileresVigentes()
+    {
+        ArrayList<String> peliculas = new ArrayList<String>();
+
+        for (int i = 0; i < this.clientes.size(); i++)
+        {
+            ArrayList<Pelicula> peliculasAlquiladas = this.clientes.get(i).getPeliculas();
+
+            for (int j = 0; j < peliculasAlquiladas.size(); j++)
+            {
+                peliculas.add(peliculasAlquiladas.get(j).getTitulo());
+            }
+        }
+        return peliculas;
+    }
+
     public ArrayList<Pelicula> ordenarPorPopularidadMetodoBurbuja()
     {
         ArrayList<Pelicula> peliculasOrdenadas = new ArrayList<Pelicula>(this.peliculas); ///Copio el arreglo de this.peliculas en el nuevo arreglo creado
@@ -182,27 +188,20 @@ public class VideoStore
     }
     public ArrayList<Pelicula> ordenarPorPopularidadMetodoBurbujaGenero(ArrayList<Pelicula> aCopiar)
     {
-        ArrayList<Pelicula> peliculasOrdenadas = new ArrayList<Pelicula>(aCopiar); ///Copio el arreglo de this.peliculas en el nuevo arreglo creado
-        int n = peliculasOrdenadas.size(); /// n es igual a la cantidad de peliculas que hay.
+        ///Copio el arreglo de this.peliculas en el nuevo arreglo creado
+        int n = aCopiar.size(); /// n es igual a la cantidad de peliculas que hay.
         for (int i = 0; i < n - 1; i++) {
             for (int j = 0; j < n - i - 1; j++) {
-                if (peliculasOrdenadas.get(j).getPopularidad() < peliculasOrdenadas.get(j + 1).getPopularidad())
+                if (aCopiar.get(j).getPopularidad() < aCopiar.get(j + 1).getPopularidad())
                 {
                     // Intercambiar elementos
-                    Pelicula temp = peliculasOrdenadas.get(j);
-                    peliculasOrdenadas.set(j, peliculasOrdenadas.get(j + 1));
-                    peliculasOrdenadas.set(j + 1, temp);
+                    Pelicula temp = aCopiar.get(j);
+                    aCopiar.set(j, aCopiar.get(j + 1));
+                    aCopiar.set(j + 1, temp);
                 }
             }
         }
-        return peliculasOrdenadas;
-    }
-    public void mostrarArrayListPeliculas (ArrayList<Pelicula> peliculas)
-    {
-        for(int i = 0; i < peliculas.size(); i++)
-        {
-            peliculas.get(i).mostrarPelicula();
-        }
+        return aCopiar;
     }
     public void buscarPorGeneroYOrdenarlosSegunPopularidad (String genero)
     {
@@ -219,6 +218,14 @@ public class VideoStore
         aCopiar = ordenarPorPopularidadMetodoBurbujaGenero(aCopiar);
         mostrarArrayListPeliculas(aCopiar);
     }
+    public void mostrarArrayListPeliculas (ArrayList<Pelicula> peliculas)
+    {
+        for(int i = 0; i < peliculas.size(); i++)
+        {
+            peliculas.get(i).mostrarPelicula();
+        }
+    }
+
     public void verInformacionDetalladaPelicula (String nombrePelicula)
     {
         for(Pelicula buscarPeli: this.peliculas)
@@ -229,4 +236,24 @@ public class VideoStore
             }
         }
     }
+    public void consultarUltimosDiezAlquileresClientes2()
+    {
+        for (Cliente cliente : this.clientes)
+        {
+            ///Guardo las peliculas del cliente en un arrayList de peliculas
+            ArrayList<Pelicula> peliculasAlquiladas = cliente.getPeliculas();
+            ///Guardo el total de peliculas del cliente en un entero.
+            int numPeliculasAlquiladas = peliculasAlquiladas.size();
+            ///Imprimo el nombre del cliente
+            System.out.println("Cliente: " + cliente.getNombre());
+            ///Math.min me devuelve el valor mas pequeño entre el total de mis peliculas alquiladas del cliente y 10 que es el maximo que se pueden ver
+            ///Segun la consigna, entonces para ver las diez ultimas utilizo mathmin
+            int numPeliculas = Math.min(numPeliculasAlquiladas, 2);
+            ///Bucle
+            for (int i = numPeliculasAlquiladas - 1; i >= numPeliculasAlquiladas - numPeliculas; i--)
+            {
+                    System.out.println(peliculasAlquiladas.get(i).getTitulo());
+            }
+        }
+        }
 }

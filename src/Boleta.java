@@ -1,4 +1,3 @@
-import java.lang.reflect.Array;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Random;
@@ -18,16 +17,9 @@ public class Boleta
     {
         this.fechaRetiro = LocalDate.now();
 
-        Random random = new Random();
-        ///Dia minimo que me puede devolver la pelicula, dia de la fecha, actualizar desde aqui.
-        int minDay = (int) LocalDate.of(2023, 4, 4).toEpochDay();
-        ///Dia maximo que me puede devolver la pelicula, de dia de arriba hacia una semana, actualizar desde aqui.
-        int maxDay = (int) LocalDate.of(2023, 4, 11).toEpochDay();
-        ///Guardo en randomday una fecha random con los metodos de abajo.
-        long randomDay =  minDay + random.nextInt(maxDay - minDay);
-        ///
-        this.fechaDevolucion = LocalDate.ofEpochDay(randomDay);
-
+        int dia = LocalDate.now().getDayOfMonth(); //Se decidio que haya tiempo para devolverla dentro de una semana.
+        this.fechaDevolucion = (LocalDate.of(LocalDate.now().getYear(), LocalDate.now().getMonth(), dia+7));
+        ///this.fechaDevolucion = LocalDate.now();
         this.cliente = cliente;
     }
 
@@ -61,18 +53,17 @@ public class Boleta
         this.fechaDevolucion = fechaDevolucion;
     }
 
-    public int devolverPelicula (Pelicula peli)
+    public void devolverPelicula (Pelicula peli)
     {
-        int flag = 0;
-        LocalDate fechaHoy = LocalDate.now();
-
-        if(this.getFechaDevolucion() == fechaHoy)
+        if(LocalDate.now() == this.fechaDevolucion)
         {
-            flag = 1;
             peli.setStock(peli.getStock() + 1);
         }
+        else
+        {
+            System.out.println("No es tiempo de devolver la pelicula. ");
+        }
         ///Si le fecha de devolucion es igual a la fecha actual significa que hay que devolver la pelicula.
-        return flag;
     }
     public ArrayList<Cliente> consultarDevolucionesHoy (VideoStore TiendaCompleta)
     {
@@ -95,8 +86,8 @@ public class Boleta
     public void mostrarBoleta ()
     {
         System.out.println("*******BOLETA*******");
-        this.cliente.mostrarUnCliente();
         System.out.println("Fecha de retiro: " + this.fechaRetiro);
         System.out.println("Fecha de devolucion: " + this.fechaDevolucion);
+        this.cliente.mostrarUnClienteDatosYPeliculasHistorialCompleto();
     }
 }

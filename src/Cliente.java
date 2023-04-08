@@ -60,22 +60,34 @@ public class Cliente
     public void agregarPeliculaDeClienteAArrayList (Pelicula pelicula)
     {
         pelicula.setPopularidad(pelicula.getPopularidad()+1);
+        pelicula.setStock(pelicula.getStock()-1);
         this.peliculas.add(pelicula);
     }
-    public void mostrarUnCliente ()
+    public void mostrarUnClienteSoloUltimosDiez ()
     {
+        System.out.println("**********************************");
         System.out.println("Nombre del cliente: " + this.nombre);
         System.out.println("Direccion del cliente: " + this.direccion);
         System.out.println("DNI del cliente: " + this.dni);
+        System.out.println("Peliculas que lleva el cliente: ");
+        System.out.println("**********************************");
+        for(int i = 0; i < 10; i++)
+        {
+            System.out.println(this.peliculas.get(i).getTitulo());
+        }
+        System.out.println("**********************************");
     }
-    public void verDatosDelClienteYUltimas10PeliculasQueAlquilo ()
+    public void mostrarUnClienteDatosYPeliculasHistorialCompleto ()
     {
+        System.out.println("**********************************");
+        System.out.println("Nombre del cliente: " + this.nombre);
+        System.out.println("Direccion del cliente: " + this.direccion);
+        System.out.println("DNI del cliente: " + this.dni);
+        System.out.println("Peliculas que lleva el cliente: ");
         for(int i = 0; i < this.peliculas.size(); i++)
         {
-            mostrarUnCliente();
-            System.out.println("Nombre de la pelicula alquilada: " + this.peliculas.get(i).getTitulo());
+            System.out.println(this.peliculas.get(i).getTitulo());
         }
+        System.out.println("**********************************");
     }
-
-
 }
