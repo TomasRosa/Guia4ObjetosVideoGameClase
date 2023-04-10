@@ -19,9 +19,9 @@ public class Main
         System.out.println("(2) Ver informacion de todas las peliculas luego de ser alquiladas por los clientes de nuestra base de datos. ");
         System.out.println("(3) Ver informacion de todos los clientes de nuestra base de datos. ");
         System.out.println("(4) Solicitar alquilar peliculas. ");
-        System.out.println("(5) Devolver pelicula. CONSULTAR");
+        System.out.println("(5) Devolver pelicula.");
         System.out.println("(6) Consultar alquileres vigentes. ");
-        System.out.println("(7) Consultar devoluciones que deberian hacerse hoy. CONSULTAR ");
+        System.out.println("(7) Consultar devoluciones que deberian hacerse hoy. ");
         System.out.println("(8) Consultar ultimos diez alquileres de cada cliente. ");
         System.out.println("(9) Consultar los titulos mas alquilados");
         System.out.println("(10) Consultar los titulos mas alquilados de un genero");
@@ -85,7 +85,8 @@ public class Main
             case 7:
             {
                 llenarBaseDeDatosClientes(TiendaDeVideo);
-                System.out.println("DEJAR PARA CLASE O AYUDA COMPAÑERO");
+                TiendaDeVideo.consultarQuePeliculasDeberianDevolverseHoy();
+                break;
             }
             case 8:
             {
@@ -123,6 +124,7 @@ public class Main
                 String nombre = scan.nextLine();
 
                 TiendaDeVideo.verInformacionDetalladaPelicula(nombre);
+                break;
             }
 
         }
@@ -199,12 +201,16 @@ public class Main
         cliente.agregarPeliculaDeClienteAArrayList(peli4);
 
         TiendaDeVideo.agregarClienteAVideoStore(cliente);
+        Boleta boletaCliente = new Boleta(cliente);
+        cliente.agregarBoletaAArrayList(boletaCliente);
 
         Cliente cliente2 = new Cliente("Ramiro","Genova 3145",87654321);
         cliente2.agregarPeliculaDeClienteAArrayList(peli3);
         cliente2.agregarPeliculaDeClienteAArrayList(peli);
 
         TiendaDeVideo.agregarClienteAVideoStore(cliente2);
+        Boleta boletaCliente2 = new Boleta(cliente2);
+        cliente2.agregarBoletaAArrayList(boletaCliente2);
 
         Cliente cliente3 = new Cliente("Pelado","Constitucion 1450",34567890);
         cliente3.agregarPeliculaDeClienteAArrayList(peli5);
@@ -213,6 +219,8 @@ public class Main
         cliente3.agregarPeliculaDeClienteAArrayList(peli8);
 
         TiendaDeVideo.agregarClienteAVideoStore(cliente3);
+        Boleta boletaCliente3 = new Boleta(cliente3);
+        cliente3.agregarBoletaAArrayList(boletaCliente3);
 
         Cliente cliente4 = new Cliente("Lauti","Lebensohn 4213",10293847);
         cliente4.agregarPeliculaDeClienteAArrayList(peli6);
@@ -220,6 +228,8 @@ public class Main
         cliente4.agregarPeliculaDeClienteAArrayList(peli10);
 
         TiendaDeVideo.agregarClienteAVideoStore(cliente4);
+        Boleta boletaCliente4 = new Boleta(cliente4);
+        cliente4.agregarBoletaAArrayList(boletaCliente4);
 
         Cliente cliente5 = new Cliente("Luquitas","Luis Agote 2892",45539094);
         cliente5.agregarPeliculaDeClienteAArrayList(peli12);
@@ -230,14 +240,23 @@ public class Main
         cliente5.agregarPeliculaDeClienteAArrayList(peli4);
 
         TiendaDeVideo.agregarClienteAVideoStore(cliente5);
+        Boleta boletaCliente5 = new Boleta(cliente5);
+        cliente5.agregarBoletaAArrayList(boletaCliente5);
+
     }
     public static void gestionarDevolucion (VideoStore TiendaDeVideo, Cliente clientecito)
     {
+        System.out.println("Boleta del cliente antes de devolver las peliculas: ");
+        for(int i = 0; i < clientecito.getBoletas().size(); i++)
+        {
+            clientecito.getBoletas().get(i).mostrarBoleta();
+        }
         TiendaDeVideo.devolverPeliculas(clientecito);
-
-    }
-    public static void consultarDevolucionesQueDeberianHacerseHoy ()
-    {
+        System.out.println("Boleta del cliente luego de devolver las peliculas: ");
+        for(int i = 0; i< clientecito.getBoletas().size(); i++)
+        {
+            clientecito.getBoletas().get(i).mostrarBoleta();
+        }
 
     }
 }

@@ -1,12 +1,14 @@
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Random;
 
 public class Boleta
 {
     private Cliente cliente;
     private LocalDate fechaRetiro; ///Va a ser hoy
     private LocalDate fechaDevolucion; ///Fecha random puede ser solo de aqui a una semana.
-
+    Random random = new Random();
+    long numeroDeBoleta = random.nextLong(1000000000);
 
     public Boleta()
     {
@@ -22,7 +24,6 @@ public class Boleta
         this.fechaDevolucion = LocalDate.now();
         this.cliente = cliente;
     }
-
     public Cliente getCliente()
     {
         return cliente;
@@ -53,21 +54,6 @@ public class Boleta
         this.fechaDevolucion = fechaDevolucion;
     }
 
-    public void devolverPelicula ()
-    {
-        ArrayList<Pelicula> peliculasAlquiladas = this.cliente.getPeliculas();
-
-
-        if(LocalDate.now() == this.fechaDevolucion)
-        {
-
-        }
-        else
-        {
-            System.out.println("No es tiempo de devolver la pelicula. ");
-        }
-        ///Si le fecha de devolucion es igual a la fecha actual significa que hay que devolver la pelicula.
-    }
     public ArrayList<Cliente> consultarDevolucionesHoy (VideoStore TiendaCompleta)
     {
         ArrayList<Cliente> clientesConPeliculasADevolver = new ArrayList<Cliente>();
@@ -91,16 +77,8 @@ public class Boleta
         System.out.println("*******BOLETA*******");
         System.out.println("Fecha de retiro: " + this.fechaRetiro);
         System.out.println("Fecha de devolucion: " + this.fechaDevolucion);
+        System.out.println("Nª de boleta: " + this.numeroDeBoleta);
         this.cliente.mostrarUnClienteDatosYPeliculasHistorialCompleto();
     }
 
-    @Override
-    public String toString()
-    {
-        return "Boleta{" +
-                "cliente=" + cliente +
-                ", fechaRetiro=" + fechaRetiro +
-                ", fechaDevolucion=" + fechaDevolucion +
-                '}';
-    }
 }
