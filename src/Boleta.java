@@ -1,6 +1,5 @@
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Random;
 
 public class Boleta
 {
@@ -18,8 +17,9 @@ public class Boleta
         this.fechaRetiro = LocalDate.now();
 
         int dia = LocalDate.now().getDayOfMonth(); //Se decidio que haya tiempo para devolverla dentro de una semana.
-        this.fechaDevolucion = (LocalDate.of(LocalDate.now().getYear(), LocalDate.now().getMonth(), dia+7));
+        ///this.fechaDevolucion = (LocalDate.of(LocalDate.now().getYear(), LocalDate.now().getMonth(), dia+7));
         ///this.fechaDevolucion = LocalDate.now();
+        this.fechaDevolucion = LocalDate.now();
         this.cliente = cliente;
     }
 
@@ -53,11 +53,14 @@ public class Boleta
         this.fechaDevolucion = fechaDevolucion;
     }
 
-    public void devolverPelicula (Pelicula peli)
+    public void devolverPelicula ()
     {
+        ArrayList<Pelicula> peliculasAlquiladas = this.cliente.getPeliculas();
+
+
         if(LocalDate.now() == this.fechaDevolucion)
         {
-            peli.setStock(peli.getStock() + 1);
+
         }
         else
         {

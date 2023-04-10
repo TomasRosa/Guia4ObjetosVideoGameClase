@@ -1,3 +1,4 @@
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -63,9 +64,9 @@ public class Main
             }
             case 5:
             {
-                ///gestionarDevolucion(TiendaDeVideo);
+                gestionarDevolucion(TiendaDeVideo);
                 ///PREGUNTAR A GUILLE O A CUALQUEIR AYUDANTE O NOSE
-                System.out.println("PREGUNTAR");
+                ///Resuelto de una manera pero igual preguntar.
                 break;
             }
             case 6:
@@ -81,6 +82,7 @@ public class Main
             }
             case 7:
             {
+                llenarBaseDeDatosClientes(TiendaDeVideo);
                 System.out.println("DEJAR PARA CLASE O AYUDA COMPAÑERO");
             }
             case 8:
@@ -229,6 +231,8 @@ public class Main
     }
     public static void gestionarDevolucion (VideoStore TiendaDeVideo)
     {
+        Scanner scan = new Scanner(System.in);
+
         ///Preguntar como solucionar repeticion de codigo
         Pelicula peli = new Pelicula("John Wick",101,"R","USA","Un exasesino busca venganza contra un grupo de gángsters que mataron a su perro.","Accion",15,2014);
         Pelicula peli2 = new Pelicula ("Mad Max: Fury Road",120,"R","AUS/USA","Un guerrero postapocalíptico ayuda a un grupo de mujeres a escapar de un líder opresor.","Accion",21,2015);
@@ -299,17 +303,16 @@ public class Main
 
         TiendaDeVideo.agregarClienteAVideoStore(cliente5);
 
-        Boleta boletita = new Boleta(cliente5);
+        System.out.println("Ingresa el DNI del cliente que desea que devuelva las peliculas. ");
+        long dni = scan.nextLong();
 
-        Pelicula peliculita = cliente5.getPeliculas().get(3);
+        Cliente clientecito = TiendaDeVideo.buscarClienteRetornarlo(dni);
 
-        System.out.println("Stock de la pelicula " + peliculita.getTitulo() + "antes de ser devuelta: " + peliculita.getStock());
+        TiendaDeVideo.devolverPeliculas(clientecito);
 
-        boletita.devolverPelicula(peliculita);
-        System.out.println("Fecha de retiro: " + boletita.getFechaRetiro());
-        System.out.println("Fecha de devolucion: " + boletita.getFechaDevolucion());
-        System.out.println("Stock de la pelicula " + peliculita.getTitulo() + "luego de ser devuelta: " + peliculita.getStock());
-
+    }
+    public static void consultarDevolucionesQueDeberianHacerseHoy ()
+    {
 
     }
 }

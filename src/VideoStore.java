@@ -1,7 +1,6 @@
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Scanner;
-
+import java.time.LocalDate;
 public class VideoStore
 {
     private ArrayList<Cliente> clientes;
@@ -81,6 +80,23 @@ public class VideoStore
 
         return clienteARetornar;
     }
+    public Cliente buscarClienteRetornarlo (long dni)
+    {
+        Cliente clienteARetornar = new Cliente();
+
+        for(Cliente clientecito: this.clientes)
+        {
+            if(clientecito.getDni() == dni)
+            {
+                clienteARetornar = clientecito;
+            }
+        }
+        if(clienteARetornar.getNombre() == null)
+        {
+            System.out.println("Ese cliente no existe en nuestra base de datos.");
+        }
+        return clienteARetornar;
+    }
     public Boleta solicitarPelicula (Scanner scan)
     {
         Boleta boletita = new Boleta();
@@ -141,18 +157,6 @@ public class VideoStore
         }
        return peli;
     }
-    /*
-    public ArrayList<String> consultarAlquileresVigentes ()
-    {
-        ArrayList<String> peliculas = new ArrayList<String>();
-
-        for(int i = 0; i < this.clientes.size(); i++)
-        {
-            peliculas.add(this.clientes.get(i).getPeliculas().get(i).getTitulo());
-        }
-        return peliculas;
-    }
-     */
     public ArrayList<String> consultarAlquileresVigentes()
     {
         ArrayList<String> peliculas = new ArrayList<String>();
@@ -255,5 +259,34 @@ public class VideoStore
                     System.out.println(peliculasAlquiladas.get(i).getTitulo());
             }
         }
+    }
+    public void devolverPeliculas (Cliente clientecito)
+    {
+        Boleta boletita = new Boleta(clientecito);
+
+        ///Alquilo todas las peliculas el mismo dia.
+
+        if(boletita.getFechaDevolucion().equals(LocalDate.now()))
+        {
+            if (boletita.getFechaDevolucion().equals(LocalDate.now()))
+            {
+                System.out.println("Boleta del cliente antes de devolver las peliculas: ");
+                boletita.getCliente().mostrarUnClienteDatosYPeliculasHistorialCompleto();
+
+                for (int i = boletita.getCliente().getPeliculas().size() - 1; i >= 0; i--)
+                {
+                    boletita.getCliente().getPeliculas().get(i).setStock(boletita.getCliente().getPeliculas().get(i).getStock() + 1);
+                    boletita.getCliente().getPeliculas().remove(i);
+                }
+
+                System.out.println("Boleta del cliente luego de devolver las peliculas: ");
+                boletita.getCliente().mostrarUnClienteDatosYPeliculasHistorialCompleto();
+            }
         }
+        else
+        {
+            System.out.println("No es el dia de devolverlas.");
+        }
+    }
+
 }
