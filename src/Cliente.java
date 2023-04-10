@@ -2,19 +2,37 @@ import java.util.ArrayList;
 public class Cliente
 {
     private ArrayList<Pelicula> peliculas;
+    private ArrayList<Boleta> boletas;
     private String nombre;
     private String direccion;
     private long dni;
     public Cliente ()
     {
         this.peliculas = new ArrayList<Pelicula>();
+        this.boletas = new ArrayList<Boleta>();
     }
     public Cliente (String nombre, String direccion, long dni)
     {
         this.peliculas = new ArrayList<Pelicula>();
+        this.boletas = new ArrayList<Boleta>();
         this.nombre = nombre;
         this.direccion = direccion;
         this.dni = dni;
+    }
+
+    public ArrayList<Boleta> getBoletas()
+    {
+        return boletas;
+    }
+
+    public void setBoletas(ArrayList<Boleta> boletas)
+    {
+        this.boletas = boletas;
+    }
+
+    public void agregarBoletaAArrayList (Boleta boleta)
+    {
+        this.boletas.add(boleta);
     }
 
     public ArrayList<Pelicula> getPeliculas()

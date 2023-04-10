@@ -97,7 +97,7 @@ public class VideoStore
         }
         return clienteARetornar;
     }
-    public Boleta solicitarPelicula (Scanner scan)
+    public void solicitarPelicula (Scanner scan)
     {
         Boleta boletita = new Boleta();
         char control = 's';
@@ -134,7 +134,10 @@ public class VideoStore
         }while (control == 's');
 
         boletita = new Boleta(clientecito);
-        return boletita;
+
+        clientecito.agregarBoletaAArrayList(boletita);
+
+        boletita.mostrarBoleta();
     }
     public Pelicula encuentraPeliculaRetorna (String nombrePelicula)
     {
@@ -262,11 +265,9 @@ public class VideoStore
     }
     public void devolverPeliculas (Cliente clientecito)
     {
-        Boleta boletita = new Boleta(clientecito);
-
         ///Alquilo todas las peliculas el mismo dia.
-
-        if(boletita.getFechaDevolucion().equals(LocalDate.now()))
+        System.out.println(clientecito.getNombre());
+        for (Boleta boletita : clientecito.getBoletas())
         {
             if (boletita.getFechaDevolucion().equals(LocalDate.now()))
             {
@@ -281,12 +282,11 @@ public class VideoStore
 
                 System.out.println("Boleta del cliente luego de devolver las peliculas: ");
                 boletita.getCliente().mostrarUnClienteDatosYPeliculasHistorialCompleto();
+            } else
+            {
+                System.out.println("No es el dia de devolverlas.");
             }
         }
-        else
-        {
-            System.out.println("No es el dia de devolverlas.");
-        }
+    }
     }
 
-}

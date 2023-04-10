@@ -93,4 +93,14 @@ public class Boleta
         System.out.println("Fecha de devolucion: " + this.fechaDevolucion);
         this.cliente.mostrarUnClienteDatosYPeliculasHistorialCompleto();
     }
+
+    @Override
+    public String toString()
+    {
+        return "Boleta{" +
+                "cliente=" + cliente +
+                ", fechaRetiro=" + fechaRetiro +
+                ", fechaDevolucion=" + fechaDevolucion +
+                '}';
+    }
 }
