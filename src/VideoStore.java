@@ -138,20 +138,24 @@ public class VideoStore {
         return peli;
     }
 
-    public ArrayList<String> consultarAlquileresVigentes() {
-        ArrayList<String> peliculas = new ArrayList<String>();
+    public ArrayList<AlquilerVigente> consultarAlquileresVigentes()
+    {
+        ArrayList<AlquilerVigente> alquileresVigentes = new ArrayList<AlquilerVigente>();
 
-        for (int i = 0; i < this.clientes.size(); i++) {
-            ArrayList<Pelicula> peliculasAlquiladas = this.clientes.get(i).getPeliculas();
-
-            for (int j = 0; j < peliculasAlquiladas.size(); j++) {
-                peliculas.add(peliculasAlquiladas.get(j).getTitulo());
+        for (int i = 0; i < this.clientes.size(); i++)
+        {
+            for (int j = 0; j < this.clientes.get(i).getPeliculas().size(); j++)
+            {
+                AlquilerVigente alquilerPeli = new AlquilerVigente(this.clientes.get(i).getPeliculas().get(j).getTitulo(), this.clientes.get(i).getDni(), this.clientes.get(i).getNombre());
+                alquileresVigentes.add(alquilerPeli);
             }
         }
-        return peliculas;
+
+        return alquileresVigentes;
     }
 
-    public ArrayList<Pelicula> ordenarPorPopularidadMetodoBurbuja() {
+    public ArrayList<Pelicula> ordenarPorPopularidadMetodoBurbuja()
+    {
         ArrayList<Pelicula> peliculasOrdenadas = new ArrayList<Pelicula>(this.peliculas); ///Copio el arreglo de this.peliculas en el nuevo arreglo creado
         int n = peliculasOrdenadas.size(); /// n es igual a la cantidad de peliculas que hay.
         for (int i = 0; i < n - 1; i++) {

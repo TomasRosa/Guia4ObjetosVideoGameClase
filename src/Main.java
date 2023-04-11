@@ -75,10 +75,10 @@ public class Main
             {
                 llenarBaseDeDatosClientes(TiendaDeVideo);
                 System.out.println("Alguileres vigentes: ");
-                ArrayList<String> consultar = TiendaDeVideo.consultarAlquileresVigentes();
+                ArrayList<AlquilerVigente> consultar = TiendaDeVideo.consultarAlquileresVigentes();
                 for(int i = 0; i < consultar.size(); i++)
                 {
-                    System.out.println(consultar.get(i));
+                    consultar.get(i).mostrarAlquilerVigente();
                 }
                 break;
             }
